@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Header from "./Components/Header";
+import Main from "./Components/Main";
+import { useState } from "react";
 
 function App() {
+  const [visibility, setVisibility] = useState(false);
+  const [image, setImage] = useState(1);
+
+  const showMenu = () => {
+    setVisibility(!visibility);
+  };
+
+  const switchImage = (data) => {
+    switch (data.type) {
+      case "next":
+        if (image === 4) {
+          setImage(1);
+        } else {
+          setImage(image + 1);
+        }
+        break;
+      case "prev":
+        if (image === 1) {
+          setImage(4);
+        } else {
+          setImage(image - 1);
+        }
+        break;
+      default:
+        setImage(data.value);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header title="sneakers" showMenu={showMenu} visibility={visibility} />
+      <Main switchImage={(data) => switchImage(data)} image={image} />
+    </>
   );
 }
 
